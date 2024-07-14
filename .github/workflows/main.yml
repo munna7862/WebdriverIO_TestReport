@@ -26,7 +26,7 @@ jobs:
       run: npm install
 
     - name: Run tests
-      run: npm test
+      run: npm run wdio
       continue-on-error: true
       env:
         NODE_ENV: test
