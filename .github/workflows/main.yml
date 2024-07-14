@@ -41,6 +41,11 @@ jobs:
     - name: Copy Allure report to GitHub Pages directory
       run: cp -r ./allure-report/* ./public/allure-report/
 
+    - name: Keep only the last 50 reports
+      run: |
+        cd ./public/allure-report/
+        ls -dt */ | tail -n +51 | xargs rm -rf
+
     - name: Deploy Allure report to GitHub Pages
       if: always()
       uses: peaceiris/actions-gh-pages@v3
