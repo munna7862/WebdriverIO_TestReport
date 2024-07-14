@@ -36,15 +36,21 @@ jobs:
         npm run generateReport
  
     - name: Create directory for GitHub Pages
-      run: mkdir -p ./public/allure-report
+      run: mkdir -p ./public/allure-report mkdir -p ./public/allure-results
 
     - name: Copy Allure report to GitHub Pages directory
-      run: cp -r ./allure-report/* ./public/allure-report/
+      run: cp -r ./allure-report/* ./public/allure-report/ cp -r ./allure-results/* ./public/allure-results/
 
-    - name: Keep only the last 50 reports
-      run: |
-        cd ./public/allure-report/
-        ls -dt */ | tail -n +51 | xargs rm -rf
+    # - name: Allure Report action from marketplace
+    #   uses: simple-elf/allure-report-action@master
+    #   if: always()
+    #   #id: allure-report
+    #   with:
+    #     allure_results: smoke_demo/allure-results
+    #     gh_pages: gh-pages
+    #     allure_report: smoke_demo/allure-report
+    #     allure_history: smoke_demo/allure-history
+    #     keep_reports: 300
 
     - name: Deploy Allure report to GitHub Pages
       if: always()
