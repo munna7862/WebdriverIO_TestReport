@@ -34,7 +34,6 @@ jobs:
     - name: Generate Allure report
       run: |
         npm run generateReport
-        npm run openReport
 
     - name: Create directory for GitHub Pages
       run: mkdir -p ./public/allure-report
