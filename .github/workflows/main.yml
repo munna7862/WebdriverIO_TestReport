@@ -39,18 +39,18 @@ jobs:
       run: mkdir -p ./public/allure-report mkdir -p ./public/allure-results
 
     - name: Copy Allure report to GitHub Pages directory
-      run: cp -r ./allure-report/* ./public/allure-report/ cp -r ./allure-results/* ./public/allure-results/
+      run: cp -r ./allure-report ./allure-results ./public/
 
-    # - name: Allure Report action from marketplace
-    #   uses: simple-elf/allure-report-action@master
-    #   if: always()
-    #   #id: allure-report
-    #   with:
-    #     allure_results: smoke_demo/allure-results
-    #     gh_pages: gh-pages
-    #     allure_report: smoke_demo/allure-report
-    #     allure_history: smoke_demo/allure-history
-    #     keep_reports: 300
+    - name: Allure Report action from marketplace
+      uses: simple-elf/allure-report-action@master
+      if: always()
+      #id: allure-report
+      with:
+        allure_results: ./allure-results
+        gh_pages: gh-pages
+        allure_report: ./allure-report
+        allure_history: ./allure-history
+        keep_reports: 300
 
     - name: Deploy Allure report to GitHub Pages
       if: always()
