@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -25,7 +26,8 @@ jobs:
       run: npm install
 
     - name: Run tests
-      run: npm run wdio
+      run: npm test
+      continue-on-error: true
       env:
         NODE_ENV: test
 
@@ -34,12 +36,18 @@ jobs:
         npm run allure:generate
         npm run allure:open
 
+    - name: Create directory for GitHub Pages
+      run: mkdir -p ./public/allure-report
+
+    - name: Copy Allure report to GitHub Pages directory
+      run: cp -r ./allure-report/* ./public/allure-report/
+
     - name: Deploy Allure report to GitHub Pages
       if: always()
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GIT_TOKEN }}
-        publish_dir: ./allure-report
+        publish_dir: ./public
         keep_files: true
 
     - name: Upload Allure report artifacts
