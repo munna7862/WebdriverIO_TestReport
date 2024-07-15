@@ -8,7 +8,7 @@ on:
   pull_request:
     branches:
       - main
-  
+
 
 jobs:
   build:
@@ -36,11 +36,11 @@ jobs:
       run: |
         npm run generateReport
  
-    - name: Create directory for GitHub Pages
-      run: mkdir -p ./public/allure-report
+    # - name: Create directory for GitHub Pages
+    #   run: mkdir -p ./public/allure-report
 
-    - name: Copy Allure report to GitHub Pages directory
-      run: cp -r ./allure-report/* ./public/allure-report/
+    # - name: Copy Allure report to GitHub Pages directory
+    #   run: cp -r ./allure-report/* ./public/allure-report/
 
     - name: Get Allure history
       uses: actions/checkout@v2
@@ -73,4 +73,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: allure-report
-        path: ./allure-report
+        path: ./reports/allure/allure-report
