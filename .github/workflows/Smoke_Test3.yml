@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm run wdio
+      continue-on-error: true
+      env:
+        NODE_ENV: test
+
+    - name: Generate Allure report
+      run: |
+        npm run generateReport
+
+    - name: Create directory for GitHub Pages
+      run: mkdir -p ./public/Reports
+  
+    - name: Copy Allure report to GitHub Pages directory
+      run: cp -r reports/allure-report/* ./public/Reports/
+
+    - name: Upload Allure report artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: allureReport
+        path: reports/allure-report

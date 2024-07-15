@@ -2,12 +2,12 @@ name: CI
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
 
 
 jobs:
@@ -37,10 +37,10 @@ jobs:
         npm run generateReport
  
     - name: Create directory for GitHub Pages
-      run: mkdir -p ./public/allure-report
+      run: mkdir -p ./public/allureReport
 
     - name: Copy Allure report to GitHub Pages directory
-      run: cp -r ./allure-report/* ./public/allure-report/
+      run: cp -r ./allure-report/* ./public/allureReport/
 
     - name: Get Allure history
       uses: actions/checkout@v2
