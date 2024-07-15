@@ -35,7 +35,13 @@ jobs:
       run: mkdir -p ./public/Reports
   
     - name: Copy Allure report to GitHub Pages directory
-      run: cp -r ./reports/allure-report/* ./public/Reports/
+      run: cp -r reports/allure-report/* ./public/Reports/
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public/Reports
 
     - name: Upload Allure report artifacts
       uses: actions/upload-artifact@v3
