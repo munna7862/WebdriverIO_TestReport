@@ -39,6 +39,17 @@ jobs:
         id=${{ github.run_number }}
         mkdir -p ./public/Reports/$id
         cp -r reports/allure-report/* ./public/Reports/$id/
+
+    - name: List existing reports
+      id: list_reports
+      run: ls -d ./public/Reports/*/ || echo "No reports found"
+  
+    - name: Cleanup old reports
+      if: steps.list_reports.outputs.id != 'No reports found'
+      run: |
+        cd ./public/Reports
+        ls -d */ | sort -r | tail -n +3 | xargs rm -rf
+        cd ../..
  
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
