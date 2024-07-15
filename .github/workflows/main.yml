@@ -32,15 +32,23 @@ jobs:
       env:
         NODE_ENV: test
 
-    - name: Generate Allure report
-      run: |
-        npm run generateReport
+    # - name: Generate Allure report
+    #   run: |
+    #     npm run generateReport
  
-    - name: Create directory for GitHub Pages
-      run: mkdir -p ./public/allure-report mkdir -p ./public/allure-results
+    # - name: Create directory for GitHub Pages
+    #   run: mkdir -p ./public/allure-report mkdir -p ./public/allure-results
 
-    - name: Copy Allure report to GitHub Pages directory
-      run: cp -r ./allure-report ./allure-results ./public/
+    # - name: Copy Allure report to GitHub Pages directory
+    #   run: cp -r ./allure-report ./allure-results ./public/
+
+    - name: Get Allure history
+      uses: actions/checkout@v2
+      if: always()
+      continue-on-error: true
+      with:
+        ref: gh-pages
+        path: gh-pages
 
     - name: Allure Report action from marketplace
       uses: simple-elf/allure-report-action@master
@@ -58,11 +66,13 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GIT_TOKEN }}
-        publish_dir: ./public
+        PUBLISH_BRANCH: gh-pages
+        publish_dir: ./allure-history
         keep_files: true
+        
 
-    - name: Upload Allure report artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: allure-report
-        path: ./allure-report
+    # - name: Upload Allure report artifacts
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: allure-report
+    #     path: ./allure-report
