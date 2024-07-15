@@ -42,14 +42,21 @@ jobs:
 
     - name: List existing reports
       id: list_reports
-      run: ls -d ./public/Reports/*/ || echo "No reports found"
+      run: |
+        git clone --depth=1 --branch=gh-pages https://github.com/${{ github.repository }} ./gh-pages
+        cd gh-pages
+        ls -d */ || echo "No reports found"
+        cd ..
   
     - name: Cleanup old reports
       if: steps.list_reports.outputs.id != 'No reports found'
       run: |
-        cd ./public/Reports
-        ls -d */ | sort -r | tail -n +3 | xargs rm -rf
-        cd ../..
+        cd gh-pages
+        ls -dt */ | tail -n +3 | xargs rm -rf
+        git add -A
+        git commit -m "Cleanup old Allure reports"
+        git push origin gh-pages
+        cd ..
  
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
