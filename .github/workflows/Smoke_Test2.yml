@@ -27,8 +27,12 @@ jobs:
       env:
         NODE_ENV: test
 
+    - name: Generate Allure report
+      run: |
+        npm run generateReport
+
     - name: Upload Allure report artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: allure-report
+        name: allureReport
         path: allure-report
