@@ -35,13 +35,12 @@ jobs:
       id: list_reports
       run: ls ./public/Reports || echo "No reports found"
   
-    - name: Generate unique ID
-      id: generate_id
-      run: echo "::set-output name=id::$(uuidgen)"
-  
+    - name: Create directory for GitHub Pages
+      run: mkdir -p ./public/Reports
+
     - name: Copy Allure report to GitHub Pages directory
       run: |
-        id=$(echo "${{ steps.generate_id.outputs.id }}")
+        id=${{ github.run_id }}
         mkdir -p ./public/Reports/$id
         cp -r reports/allure-report/* ./public/Reports/$id/
   
