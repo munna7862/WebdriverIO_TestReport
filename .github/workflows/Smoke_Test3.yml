@@ -31,33 +31,41 @@ jobs:
       run: |
         npm run generateReport
 
-    - name: List existing reports
-      id: list_reports
-      run: ls ./public/Reports || echo "No reports found"
-  
-    - name: Create directory for GitHub Pages
-      run: mkdir -p ./public/Reports
+    # - name: Create directory for GitHub Pages
+    #   run: mkdir -p ./public/Reports
 
-    - name: Copy Allure report to GitHub Pages directory
-      run: |
-        id=${{ github.run_number }}
-        mkdir -p ./public/Reports/$id
-        cp -r reports/allure-report/* ./public/Reports/$id/
-  
-    - name: Cleanup old reports
-      if: steps.list_reports.outputs.id != 'No reports found'
-      run: |
-        cd ./public/Reports
-        ls -d */ | sort -r | tail -n +6 | xargs rm -rf
-        cd ../..
+    # - name: Copy Allure report to GitHub Pages directory
+    #   run: |
+    #     id=${{ github.run_number }}
+    #     mkdir -p ./public/Reports/$id
+    #     cp -r reports/allure-report/* ./public/Reports/$id/
  
+    - name: Get Allure history
+      uses: actions/checkout@v2
+      if: always()
+      continue-on-error: true
+      with:
+        ref: gh-pages
+        path: gh-pages
+
+    - name: Test marketplace action
+      uses: simple-elf/allure-report-action@master
+      if: always()
+      id: allure-report
+      with:
+        allure_results: reports/allure-results
+        gh_pages: gh-pages
+        allure_report: reports/allure-report
+        allure_history: reports/allure-history
+        keep_reports: 300
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GIT_TOKEN }}
         publish_branch: gh-pages
         # publish_dir: ./public/Reports/$id/
-        keep_files: 2
+        keep_files: true
 
     # - name: Upload Allure report artifacts
     #   uses: actions/upload-artifact@v3
