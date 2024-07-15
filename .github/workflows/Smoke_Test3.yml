@@ -30,35 +30,16 @@ jobs:
     - name: Generate Allure report
       run: |
         npm run generateReport
+  
+    - name: Create directory for GitHub Pages
+      run: mkdir -p ./public/Reports
 
-    # - name: Create directory for GitHub Pages
-    #   run: mkdir -p ./public/Reports
-
-    # - name: Copy Allure report to GitHub Pages directory
-    #   run: |
-    #     id=${{ github.run_number }}
-    #     mkdir -p ./public/Reports/$id
-    #     cp -r reports/allure-report/* ./public/Reports/$id/
+    - name: Copy Allure report to GitHub Pages directory
+      run: |
+        id=${{ github.run_number }}
+        mkdir -p ./public/Reports/$id
+        cp -r reports/allure-report/* ./public/Reports/$id/
  
-    - name: Get Allure history
-      uses: actions/checkout@v2
-      if: always()
-      continue-on-error: true
-      with:
-        ref: gh-pages
-        path: gh-pages
-
-    - name: Test marketplace action
-      uses: simple-elf/allure-report-action@master
-      if: always()
-      id: allure-report
-      with:
-        allure_results: reports/allure-results
-        gh_pages: gh-pages
-        allure_report: reports/allure-report
-        allure_history: reports/allure-history
-        keep_reports: 300
-
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
