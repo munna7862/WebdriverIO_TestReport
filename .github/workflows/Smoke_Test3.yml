@@ -31,11 +31,15 @@ jobs:
       run: |
         npm run generateReport
 
-    - name: Create directory for GitHub Pages
-      run: mkdir -p ./public/Reports
+    - name: Generate unique ID
+      id: generate_id
+      run: echo "::set-output name=id::$(uuidgen)"
   
     - name: Copy Allure report to GitHub Pages directory
-      run: cp -r reports/allure-report/* ./public/Reports/
+      run: |
+        id=$(echo "${{ steps.generate_id.outputs.id }}")
+        mkdir -p ./public/Reports/$id
+        cp -r reports/allure-report/* ./public/Reports/$id/
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
