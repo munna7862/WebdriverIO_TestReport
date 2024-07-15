@@ -39,24 +39,6 @@ jobs:
         id=${{ github.run_number }}
         mkdir -p ./public/Reports/$id
         cp -r reports/allure-report/* ./public/Reports/$id/
-
-    - name: List existing reports
-      id: list_reports
-      run: |
-        git clone --depth=1 --branch=gh-pages https://github.com/${{ github.repository }} ./gh-pages
-        cd gh-pages
-        ls -d */ || echo "No reports found"
-      
-  
-    - name: Delete old reports from gh-pages branch
-      env:
-        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-      run: |
-        ls -dt */ | tail -n +3 | xargs rm -rf
-        git add -A
-        git commit -m "Cleanup old Allure reports"
-        git push origin gh-pages
-        cd ..
  
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
