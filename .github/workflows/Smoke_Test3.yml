@@ -41,10 +41,11 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GIT_TOKEN }}
-        publish_dir: ./public/Reports
+        publish_branch: gh-pages
+        # publish_dir: ./public/Reports
 
-    - name: Upload Allure report artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: allureReport
-        path: reports/allure-report
+    # - name: Upload Allure report artifacts
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: allureReport
+    #     path: reports/allure-report
