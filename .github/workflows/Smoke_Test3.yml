@@ -31,9 +31,9 @@ jobs:
       run: |
         npm run generateReport
 
-        - name: List existing reports
-        id: list_reports
-        run: ls ./public/Reports || echo "No reports found"
+    - name: List existing reports
+      id: list_reports
+      run: ls ./public/Reports || echo "No reports found"
   
     - name: Generate unique ID
       id: generate_id
