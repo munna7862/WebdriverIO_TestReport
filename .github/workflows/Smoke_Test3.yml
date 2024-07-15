@@ -57,7 +57,7 @@ jobs:
       with:
         github_token: ${{ secrets.GIT_TOKEN }}
         publish_branch: gh-pages
-        publish_dir: ./public/Reports/$id/
+        # publish_dir: ./public/Reports/$id/
 
     # - name: Upload Allure report artifacts
     #   uses: actions/upload-artifact@v3
