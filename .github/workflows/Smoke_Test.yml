@@ -40,7 +40,7 @@ jobs:
       run: mkdir -p ./public/allureReport
 
     - name: Copy Allure report to GitHub Pages directory
-      run: cp -r ./allure-report/* ./public/allureReport/
+      run: cp -r ./reports/allure-report/* ./public/allureReport/
 
     - name: Get Allure history
       uses: actions/checkout@v2
