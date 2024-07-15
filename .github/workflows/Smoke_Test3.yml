@@ -48,12 +48,13 @@ jobs:
     #     ls -d */ || echo "No reports found"
     #     cd ..
   
-    - name: Cleanup old reports
+    - name: Delete old reports from gh-pages branch
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
       run: |
-        cd gh-pages
-        ls -dt */ | tail -n +3 | xargs rm -rf
+        git clone --depth=1 --branch=gh-pages https://x-access-token:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} ./gh-pages
+        cd gh-pages || exit 1
+        ls -dt */ | tail -n +6 | xargs rm -rf
         git add -A
         git commit -m "Cleanup old Allure reports"
         git push origin gh-pages
