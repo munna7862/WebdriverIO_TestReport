@@ -2,7 +2,7 @@ name: CI Manual and Scheduler
 
 on:
   schedule:
-    - cron: '22 13 * * *'
+    - cron: '29 13 * * *'
   workflow_dispatch:
     inputs:
       test-type:
